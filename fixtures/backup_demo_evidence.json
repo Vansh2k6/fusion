@@ -1,0 +1,47 @@
+{
+  "label": "BACKUP EVIDENCE RECORD - NOT A LIVE RUN",
+  "note": "Recorded from verified local Anvil run on 9 October 2026 for demonstration fallback. This artifact is static evidence, not live monitoring.",
+  "rpc_url": "http://127.0.0.1:8545",
+  "chain_id": 31337,
+  "vulnerable_vault": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "protected_vault": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+  "attacker": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+  "normal_user": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+  "balances": [
+    {
+      "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      "label": "VulnerableVault (ETH Balance)",
+      "before_wei": "5000000000000000000",
+      "after_wei": "0",
+      "delta_wei": "-5000000000000000000"
+    },
+    {
+      "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      "label": "ProtectedVault (ETH Balance)",
+      "before_wei": "5000000000000000000",
+      "after_wei": "5000000000000000000",
+      "delta_wei": "0"
+    },
+    {
+      "address": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+      "label": "Attacker EOA",
+      "before_wei": "10000000000000000000000",
+      "after_wei": "10004997825054082890376",
+      "delta_wei": "4997825054082890376"
+    },
+    {
+      "address": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+      "label": "Normal User EOA",
+      "before_wei": "10000000000000000000000",
+      "after_wei": "9999999902400391331550",
+      "delta_wei": "-97599608668450"
+    }
+  ],
+  "alert": {
+    "severity": "high",
+    "title": "Reentrancy Attack Prevented on Protected Vault",
+    "observation": "VulnerableVault balance was fully drained from 5000000000000000000 to 0 wei (delta -5000000000000000000 wei). ProtectedVault balance remained intact at 5000000000000000000 wei after blocking the attacker's re-entrant call. Normal user deposit and withdrawal succeeded with exact accounting balance.",
+    "hypothesis": "Checks-Effects-Interactions (CEI) state reordering zeroed the caller balance before external ETH transfer, causing the re-entrant call's require(balance > 0) guard to revert and thwart exploit execution.",
+    "suggested_action": "Verify CEI across all asset transfer routines and consider OpenZeppelin ReentrancyGuard for defense in depth."
+  }
+}

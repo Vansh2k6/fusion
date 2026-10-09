@@ -1,0 +1,10 @@
+# Purpose: Pin the direct Python dependencies required to run and verify the local Fusion backend.
+fastapi==0.136.1
+httpx==0.28.1
+psutil==7.2.2
+pydantic==2.13.4
+pytest==9.1.1
+python-multipart==0.0.32
+slither-analyzer==0.11.6
+uvicorn==0.46.0
+web3==7.16.0

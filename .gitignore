@@ -1,0 +1,17 @@
+# Purpose: Keep dependencies, local secrets, generated builds, and runtime evidence out of version control.
+node_modules/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.env
+.env.*
+!.env.example
+frontend/dist/
+contracts/out/
+contracts/cache/
+contracts/broadcast/
+data/*
+!data/README.md
+slither_*_err.txt
